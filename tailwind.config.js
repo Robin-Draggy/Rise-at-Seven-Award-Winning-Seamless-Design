@@ -20,7 +20,7 @@ export default {
         hoverGrayPink: "#D2B59D",
       },
       fontFamily: {
-        sans: ["saans", "ui-sans-serif", "system-ui", "sans-serif"],
+         outfit: ['Outfit', 'sans-serif'],
       },
     },
   },
