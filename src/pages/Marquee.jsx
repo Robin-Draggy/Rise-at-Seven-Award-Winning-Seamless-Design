@@ -47,7 +47,7 @@ const Marquee = () => {
   }, []);
 
   return (
-    <div className="w-full flex items-center gap-3 sm:gap-6 overflow-hidden py-4 sm:py-6 relative">
+    <div className="w-full flex items-center gap-3 sm:gap-6 overflow-hidden py-14 relative">
 
       {/* LEFT TEXT */}
       <div className="shrink-0 pl-3 sm:pl-6 hidden md:block">

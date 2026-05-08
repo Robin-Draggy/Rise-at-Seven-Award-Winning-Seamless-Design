@@ -24,7 +24,7 @@ const Button = () => {
   return (
     <button
       ref={buttonRef}
-      className="bg-[#F1F1F1] cursor-pointer overflow-hidden"
+      className="bg-white cursor-pointer overflow-hidden"
       style={{ padding: 0, border: "none", outline: "none" }}
     >
       <div className="overflow-y-hidden" style={{ height: "48px" }}>

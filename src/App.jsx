@@ -4,6 +4,8 @@ import TopBar from "./components/bar/TopBar"
 import Button from "./components/buttons/Button"
 import Hero from "./pages/Hero"
 import Marquee from "./pages/Marquee"
+import Descovery from "./pages/Descovery"
+import TextMarquee from "./pages/TextMarquee"
 
 function App() {
 
@@ -16,7 +18,9 @@ function App() {
       <TopBar />
       <Hero />
       <Marquee />
-      <div className="w-full h-screen bg-red-700"></div>
+      <Descovery />
+      <TextMarquee />
+      <div className="w-full h-screen bg-red-800"></div>
     </div>
     </>
   )
