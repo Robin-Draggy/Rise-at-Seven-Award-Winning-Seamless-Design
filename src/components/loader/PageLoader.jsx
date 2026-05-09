@@ -54,20 +54,6 @@ const PageLoader = ({ onComplete }) => {
         preserveAspectRatio="none"
         className="w-full h-full block"
       >
-        {/*
-          Shape at rest (full red screen):
-            M0 0      → top-left
-            H100      → top-right
-            V100      → bottom-right
-            Q50 110   → curve control point BELOW the bottom edge
-                        = convex bulge downward on the bottom edge
-            0 100     → bottom-left
-            Z         → close
-
-          The bottom edge bows slightly down even at rest,
-          so when the animation starts the curve is already there
-          and it just becomes more dramatic as it exits.
-        */}
         <path
           ref={pathRef}
           fill="#B2F6E3"

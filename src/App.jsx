@@ -6,6 +6,8 @@ import Hero from "./pages/Hero"
 import Marquee from "./pages/Marquee"
 import Descovery from "./pages/Descovery"
 import TextMarquee from "./pages/TextMarquee"
+import HoverGallery from "./pages/HoverGallery"
+import Footer from "./pages/Footer"
 
 function App() {
 
@@ -14,13 +16,14 @@ function App() {
   return (
     <>
     <PageLoader />
-    <div className="my-2.5 mx-2 space-y-2">
+    <div className="my-2.5 mx-2 space-y-2 overflow-x-hidden">
       <TopBar />
       <Hero />
       <Marquee />
       <Descovery />
       <TextMarquee />
-      <div className="w-full h-screen bg-red-800"></div>
+      <HoverGallery />
+      <Footer />      
     </div>
     </>
   )

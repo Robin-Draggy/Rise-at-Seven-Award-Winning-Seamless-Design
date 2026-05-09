@@ -2,6 +2,49 @@
 
 @import "tailwindcss";
 
+
+:root {
+  /* =========================
+     CORE COLORS
+  ========================= */
+
+  --color-bg: #EFEEEC;                 /* website background */
+  --color-heading: #111212;            /* headings */
+
+  --color-navbar: #BEBEBE;             /* navbar background */
+  --color-footer: #282828;             /* footer background */
+
+  --color-topbar: #B2F6E3;             /* top download/report bar */
+
+  --color-black: #000000;              /* full black */
+  --color-white: #FFFFFF;
+
+  /* =========================
+     HOVER COLORS
+  ========================= */
+
+  --hover-pink-1: #FECACC;
+  --hover-pink-2: #FDD8C4;
+
+  --hover-purple: #D29DD0;
+  --hover-ash: #D8C4FD;
+
+  --hover-dark-blue: #3A8CCB;
+  --hover-skyblue: #60DCFB;
+  --hover-light-blue: #39B0BD;
+
+  --hover-orange: #CB7B3A;
+  --hover-gray-pink: #D2B59D;
+
+  /* =========================
+     UI COLORS
+  ========================= */
+
+  --navlink-hover: #F7F7F7;
+  --cta-button: #FFFFFF;
+  --email-input-bg: #6A6A6A;
+}
+
 body {
   font-family: "Outfit", ui-sans-serif, system-ui, sans-serif;
   background-color: #F1F1F1;
@@ -13,4 +56,30 @@ body {
   letter-spacing: -0.04em;
   font-weight: 500;
   text-transform: capitalize;
+}
+
+.heading{
+  color: var(--color-heading)
+}
+
+.footer-bg{
+  background-color: var(--color-heading);
+}
+
+.mint-bg{
+  background-color: var(--color-topbar);
+}
+
+.email-bg{
+  background-color: var(--hover-ash);
+}
+
+.blur-reveal {
+  clip-path: inset(100% 0% 0% 0%);
+  transition: clip-path 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* reveal from bottom → top */
+.group:hover .blur-reveal {
+  clip-path: inset(0% 0% 0% 0%);
 }

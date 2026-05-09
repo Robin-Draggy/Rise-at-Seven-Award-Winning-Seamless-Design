@@ -40,7 +40,7 @@ const Button = () => {
 
           <div
             className="flex items-center justify-center"
-            style={{ height: "48px", width: "200px" }}
+            style={{ height: "48px", width: "150px" }}
           >
             <span className="flex items-center gap-2 text-gray-800 font-medium">
               Get in touch <ArrowUpRight size={18} />
