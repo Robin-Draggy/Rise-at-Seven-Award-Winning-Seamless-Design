@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { ArrowUpRight, Timer } from "lucide-react";
 import gsap from "gsap";
 import Button from "../components/buttons/Button";
+import Heading from "../components/heading/Heading";
 
 const items = [
   {
@@ -27,6 +28,12 @@ const items = [
     avatar: "/images/2.webp",
   },
 ];
+
+const heading = {
+  firstTitle: "What's",
+  secondTitle: "New",
+  imageSrc: "/images/7.webp",
+};
 
 const HoverGallery = () => {
   const cursorRef = useRef(null);
@@ -81,16 +88,7 @@ const resetCard = (i) => {
     <section onMouseMove={moveCursor} className="relative w-full py-24 px-6">   
 
         {/* HEADING */}
-        <div className="flex items-center justify-between border-b border-[1] border-black/20 mb-8">
-            <div className="heading flex items-center gap-4">
-                <h1 className="text-[6vw] font-[500]">What's</h1>
-                <img src="/images/7.webp" alt="image" className="h-24 w-24 rounded-2xl" />
-                <h1 className="text-[6vw] font-[500]">New</h1>
-            </div>
-            <div>
-                <Button />
-            </div>
-        </div>
+        <Heading firstTitle={heading.firstTitle} secondTitle={heading.secondTitle} imageSrc={heading.imageSrc} />
 
       {/* CURSOR */}
       <div

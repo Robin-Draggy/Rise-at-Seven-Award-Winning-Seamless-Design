@@ -37,7 +37,7 @@ const TextMarquee = () => {
           >
             {/* TEXT LEFT */}
             <h1 className="flex items-center text-[13vw] font-semibold capitalize leading-none text-black">
-              We build
+              Chasing Consumers
 
               {/* IMAGE IN BETWEEN */}
               <span className="mx-6 inline-block">
@@ -49,10 +49,16 @@ const TextMarquee = () => {
                 </div>
               </span>
 
-              category leaders
+              not algorithms
 
-              {/* spacing repeat feel */}
-              <span className="ml-20">•</span>
+              <span className="mx-6 inline-block">
+                <div className="h-[12vw] w-[12vw] rounded-2xl overflow-hidden">
+                  <img
+                    src="/images/3.webp"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              </span>
             </h1>
           </div>
         ))}
