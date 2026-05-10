@@ -12,7 +12,7 @@ const TextMarquee = () => {
 
       gsap.to(track, {
         x: -totalWidth,
-        duration: 20,
+        duration: totalWidth / 100,
         ease: "none",
         repeat: -1,
       });
@@ -22,46 +22,63 @@ const TextMarquee = () => {
   }, []);
 
   return (
-    <div className="w-full overflow-hidden py-16 bg-[#F1F1F1]">
-      
+    <div className="w-full overflow-hidden py-10 sm:py-16 bg-[#F1F1F1]">
+
       {/* TRACK */}
       <div
         ref={trackRef}
         className="flex items-center w-max whitespace-nowrap"
       >
-        {/* DUPLICATED CONTENT FOR LOOP */}
+
         {[...Array(2)].map((_, i) => (
-          <div
-            key={i}
-            className="flex items-center"
-          >
-            {/* TEXT LEFT */}
-            <h1 className="flex items-center text-[13vw] font-semibold capitalize leading-none text-black">
+          <div key={i} className="flex items-center">
+
+            <h1 className="
+              flex items-center
+              text-[7rem] md:text-[9rem]
+              font-medium capitalize tracking-tighter leading-none text-[#111212]
+            ">
+
               Chasing Consumers
 
-              {/* IMAGE IN BETWEEN */}
-              <span className="mx-6 inline-block">
-                <div className="h-[12vw] w-[12vw] rounded-2xl overflow-hidden">
+              {/* IMAGE 1 */}
+              <span className="mx-3 sm:mx-4 md:mx-6 inline-block">
+                <div className="
+                  h-32 w-32
+                  md:h-[12vw] md:w-[12vw]
+                  rounded-xl md:rounded-2xl
+                  overflow-hidden
+                ">
                   <img
                     src="/images/1.webp"
                     className="h-full w-full object-cover"
+                    alt=""
                   />
                 </div>
               </span>
 
               not algorithms
 
-              <span className="mx-6 inline-block">
-                <div className="h-[12vw] w-[12vw] rounded-2xl overflow-hidden">
+              {/* IMAGE 2 */}
+              <span className="mx-3 sm:mx-4 md:mx-6 inline-block">
+                <div className="
+                  h-32 w-32
+                  md:h-[12vw] md:w-[12vw]
+                  rounded-xl md:rounded-2xl
+                  overflow-hidden
+                ">
                   <img
                     src="/images/3.webp"
                     className="h-full w-full object-cover"
+                    alt=""
                   />
                 </div>
               </span>
+
             </h1>
           </div>
         ))}
+
       </div>
     </div>
   );

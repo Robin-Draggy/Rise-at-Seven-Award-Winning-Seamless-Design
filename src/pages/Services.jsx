@@ -3,12 +3,12 @@ import { ArrowUpRight } from "lucide-react";
 import Heading from "../components/heading/Heading";
 
 const services = [
-  { title: "SEO Strategy", image: "/images/1.webp" },
-  { title: "Content Marketing", image: "/images/2.webp" },
   { title: "Digital PR", image: "/images/3.webp" },
-  { title: "Social Media", image: "/images/4.webp" },
-  { title: "Brand Strategy", image: "/images/1.webp" },
-  { title: "Performance Marketing", image: "/images/2.webp" },
+  { title: "Organic Social & Content", image: "/images/1.webp" },
+  { title: "Search & Growth Strategy", image: "/images/2.webp" },
+  { title: "Content Experience", image: "/images/4.webp" },
+  { title: "Data & Insights", image: "/images/1.webp" },
+  { title: "Onsite SEO", image: "/images/2.webp" },
 ];
 
 const heading = {
@@ -19,7 +19,7 @@ const heading = {
 
 const Services = () => {
   return (
-    <section className="w-full bg-[#EFEEEC] py-24 px-6">
+    <section className="w-full py-12 px-2">
       <Heading
         firstTitle={heading.firstTitle}
         secondTitle={heading.secondTitle}
@@ -31,7 +31,7 @@ const Services = () => {
             key={i}
             className="
               group relative overflow-hidden rounded-full
-              px-6 py-4
+              px-1 py-2
               cursor-pointer
               transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
             "
@@ -62,35 +62,44 @@ const Services = () => {
 
             {/* CONTENT */}
             <div className="relative flex items-center justify-between z-10">
-              {/* LEFT SIDE */}
-              <div className="flex items-center gap-4">
-                {/* ICON */}
+              <div className="flex items-center gap-3 md:gap-4">
+                {/* ICON (hidden on mobile) */}
                 <div
                   className="
-      flex items-center justify-center
-      opacity-0 w-0
-      group-hover:opacity-100 group-hover:w-[56px]
-      transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-    "
+        hidden md:flex items-center justify-center
+        opacity-0 w-0
+        group-hover:opacity-100 group-hover:w-[56px]
+        transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
+      "
                 >
                   <ArrowUpRight
                     size={40}
                     className="
-        text-white
-        translate-y-2
-        group-hover:translate-y-0
-        transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-      "
+          text-white
+          translate-y-2
+          group-hover:translate-y-0
+          transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
+        "
+                  />
+                </div>
+
+                {/* IMAGE (mobile only, left of title) */}
+                <div className="md:hidden w-14 h-14 rounded-md overflow-hidden shrink-0">
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="w-full h-full object-cover"
                   />
                 </div>
 
                 {/* TITLE */}
                 <h3
                   className="
-      text-[50px] font-medium text-black
-      group-hover:text-white
-      transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-    "
+        text-[25px] md:text-[50px]
+        font-medium text-black
+        group-hover:text-white
+        transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
+      "
                 >
                   {item.title}
                 </h3>

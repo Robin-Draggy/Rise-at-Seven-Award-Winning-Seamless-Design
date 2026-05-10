@@ -11,6 +11,7 @@ import ScrollTextSection from "./pages/ScrollTextSection"
 import AnimatedText from "./components/animatedLinks/AnimatedText"
 import StackedCards from "./pages/StackedCards"
 import Services from "./pages/Services"
+import FeaturedWorks from "./pages/FeaturedWorks"
 
 function App() {
 
@@ -24,6 +25,9 @@ function App() {
       <Hero />
       <Marquee />
       <Descovery />
+      <div className="mx-5">
+      {/* <FeaturedWorks /> */}
+      </div>
       <Services />
       <TextMarquee />
       <StackedCards />

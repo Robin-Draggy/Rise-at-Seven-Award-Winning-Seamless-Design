@@ -136,41 +136,50 @@ const Hero = () => {
             <div className="flex flex-col items-center justify-center mt-10">
               <h1 className="hero-heading">we create</h1>
 
-              <div className="flex items-center justify-center">
-                {/* LEFT */}
-                <h1 ref={leftTextRef} className="hero-heading relative z-10">
-                  category
-                </h1>
+              <div className="flex flex-col md:flex-row items-center justify-center">
 
-                {/* IMAGE */}
-                <div
-                  ref={imageRef}
-                  className="w-28 h-28 rounded-2xl shrink-0 overflow-hidden mx-[-20px]"
-                >
-                  <img
-                    src={selectedImage}
-                    alt="hero"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+  {/* ROW 1 on mobile: category + image */}
+  <div className="flex items-center justify-center">
 
-                {/* RIGHT */}
-                <h1 ref={rightTextRef} className="hero-heading relative z-10">
-                  leader
-                </h1>
-              </div>
+    {/* LEFT */}
+    <h1 ref={leftTextRef} className="hero-heading relative z-10">
+      category
+    </h1>
+
+    {/* IMAGE */}
+    <div
+      ref={imageRef}
+      className="w-20 h-20 md:w-28 md:h-28 rounded-2xl shrink-0 overflow-hidden mx-[-10px] md:mx-[-20px]"
+    >
+      <img
+        src={selectedImage}
+        alt="hero"
+        className="w-full h-full object-cover"
+      />
+    </div>
+  </div>
+
+  {/* RIGHT (leader) */}
+  <h1
+    ref={rightTextRef}
+    className="hero-heading relative z-10 mt-2 md:mt-0"
+  >
+    leader
+  </h1>
+
+</div>
             </div>
 
             <div className="mt-8">
-              <p className="text-3xl">on every searchable platform</p>
+              <p className="text-xl md:text-3xl text-center">on every searchable platform</p>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-center justify-center md:justify-between pb-5">
+            <div className="hidden md:block">
               <p>Organic media planners creating, distributing & optimising</p>
               <p>search-first content for SEO, Social, PR, Ai and LLM search</p>
             </div>
-            <div>
+            <div className="text-sm md:text-md">
               <p>4 Global Offices serving</p>
               <p>UK, USA (New York) & EU</p>
             </div>

@@ -1,7 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { ArrowUpRight, Timer } from "lucide-react";
 import gsap from "gsap";
-import Button from "../components/buttons/Button";
 import Heading from "../components/heading/Heading";
 
 const items = [
@@ -38,6 +37,9 @@ const heading = {
 const HoverGallery = () => {
   const cursorRef = useRef(null);
   const cardRefs = useRef([]);
+  const scrollRef = useRef(null);
+
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const moveCursor = (e) => {
     gsap.to(cursorRef.current, {
@@ -67,30 +69,36 @@ const HoverGallery = () => {
   };
 
   const liftCard = (i) => {
-  gsap.to(cardRefs.current[i], {
-    y: -20,
-    duration: 0.6,
-    ease: "power3.out",
-    overwrite: "auto",
-  });
-};
+    gsap.to(cardRefs.current[i], {
+      y: -20,
+      duration: 0.6,
+      ease: "power3.out",
+      overwrite: "auto",
+    });
+  };
 
-const resetCard = (i) => {
-  gsap.to(cardRefs.current[i], {
-    y: 0,
-    duration: 0.6,
-    ease: "power3.out",
-    overwrite: "auto",
-  });
-};
+  const resetCard = (i) => {
+    gsap.to(cardRefs.current[i], {
+      y: 0,
+      duration: 0.6,
+      ease: "power3.out",
+      overwrite: "auto",
+    });
+  };
 
   return (
-    <section onMouseMove={moveCursor} className="relative w-full py-24 px-6">   
+    <section
+      onMouseMove={moveCursor}
+      className="relative w-full py-24 px-6"
+    >
+      {/* HEADING */}
+      <Heading
+        firstTitle={heading.firstTitle}
+        secondTitle={heading.secondTitle}
+        imageSrc={heading.imageSrc}
+      />
 
-        {/* HEADING */}
-        <Heading firstTitle={heading.firstTitle} secondTitle={heading.secondTitle} imageSrc={heading.imageSrc} />
-
-      {/* CURSOR */}
+      {/* CURSOR (desktop only behavior) */}
       <div
         ref={cursorRef}
         className="fixed top-0 left-0 z-[999] pointer-events-none w-30 h-30 rounded-full bg-[#B2F6E3] flex items-center justify-center scale-0 opacity-0"
@@ -98,67 +106,103 @@ const resetCard = (i) => {
         <ArrowUpRight className="text-black w-12 h-12" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* CARD */}
-        {items.map((item, i) => (
-          <div
-            key={item.title}
-            ref={(el) => (cardRefs.current[i] = el)}
-            className="group cursor-none"
-            onMouseEnter={() => {
-              showCursor();
-              liftCard(i);
-            }}
-            onMouseLeave={() => {
-              hideCursor();
-              resetCard(i);
-            }}
-          >
-            {/* IMAGE WRAPPER */}
-            <div className="relative h-[500px] overflow-hidden rounded-[2rem]">
-              {/* MAIN IMAGE */}
-              <img
-                src={item.image}
-                className="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
-                alt=""
-              />
+      {/* CONTAINER */}
+      <div className="relative">
 
-              {/* BLUR REVEAL */}
-              <div className="absolute inset-0 blur-reveal">
+        {/* MOBILE / DESKTOP WRAPPER */}
+        <div
+          ref={scrollRef}
+          onScroll={(e) => {
+            const el = e.target;
+            const index = Math.round(el.scrollLeft / el.offsetWidth);
+            setActiveIndex(index);
+          }}
+          className="
+            flex md:grid md:grid-cols-3
+            gap-6 md:gap-8
+            overflow-x-auto md:overflow-visible
+            snap-x snap-mandatory
+            scrollbar-hide
+          "
+        >
+          {items.map((item, i) => (
+            <div
+              key={item.title}
+              ref={(el) => (cardRefs.current[i] = el)}
+              onClick={() => setActiveIndex(i)}
+              onMouseEnter={() => {
+                if (window.innerWidth >= 768) {
+                  showCursor();
+                  liftCard(i);
+                }
+              }}
+              onMouseLeave={() => {
+                if (window.innerWidth >= 768) {
+                  hideCursor();
+                  resetCard(i);
+                }
+              }}
+              className="
+                group cursor-pointer
+                min-w-[85%] md:min-w-0
+                snap-center
+              "
+            >
+              {/* IMAGE */}
+              <div
+                className={`
+                  relative h-[420px] md:h-[500px]
+                  overflow-hidden rounded-[2rem]
+                  transition-all duration-500
+                `}
+              >
                 <img
                   src={item.image}
-                  className="w-full h-full object-cover blur-xl scale-110"
+                  className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.03]"
                   alt=""
                 />
+
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-700" />
               </div>
 
-              {/* DARK OVERLAY */}
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-700" />
-            </div>
+              {/* META */}
+              <div className="flex items-center gap-3 mt-4">
+                <div className="bg-white flex items-center gap-2 px-3 py-1 rounded-full">
+                  <img
+                    src={item.avatar}
+                    className="w-5 h-5 rounded-full"
+                    alt=""
+                  />
+                  <h5 className="text-gray-600 text-sm">{item.name}</h5>
+                </div>
 
-            <div className="flex items-center gap-4 mt-6">
-              <div className="bg-white flex items-center gap-3 px-3 py-1 rounded-full">
-                <img
-                  src={item.avatar}
-                  alt="avatar"
-                  className="w-5 h-5 rounded-full"
-                />
-                <h5 className="text-gray-600">{item.name}</h5>
+                <div className="bg-white flex items-center gap-2 px-3 py-1 rounded-full text-gray-600 text-sm">
+                  <Timer className="w-4 h-4" />
+                  {item.time}
+                </div>
               </div>
-              <div className="bg-white text-gray-600 flex items-center gap-3 px-3 py-1 rounded-full">
-                <Timer />
-                <h5>{item.time}</h5>
-              </div>
-            </div>
 
-            {/* TITLE BELOW IMAGE */}
-            <div className="mt-4 px-2">
-              <h3 className="heading text-3xl w-[90%] font-medium tracking-tight">
-                {item.title}
-              </h3>
+              {/* TITLE */}
+              <div className="mt-4 px-2">
+                <h3 className="text-2xl md:text-3xl font-medium tracking-tight">
+                  {item.title}
+                </h3>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        {/* MOBILE ACTIVE INDICATOR BAR */}
+        <div className="md:hidden mt-6 relative h-[3px] w-full bg-white rounded-full overflow-hidden">
+          <div
+            className="absolute top-0 left-0 h-full bg-black rounded-full transition-all duration-500"
+            style={{
+              width: `${100 / items.length}%`,
+              transform: `translateX(${activeIndex * 100}%)`,
+            }}
+          />
+        </div>
+
       </div>
     </section>
   );

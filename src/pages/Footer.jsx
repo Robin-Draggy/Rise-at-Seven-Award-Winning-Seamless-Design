@@ -11,7 +11,7 @@ import Socials from "../components/buttons/SocialButton";
 
 const Footer = () => {
   return (
-    <div className="footer-bg text-white rounded-3xl p-8">
+    <div className="footer-bg text-white rounded-3xl px-4 md:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-8 gap-14 lg:gap-8">
         {/* LEFT */}
         <div className="lg:col-span-3 w-full lg:w-[85%] space-y-6">
@@ -58,7 +58,7 @@ const Footer = () => {
         </div>
 
         {/* RIGHT */}
-        <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+        <div className="lg:col-span-5 grid grid-cols-2 md:grid-cols-3 gap-10">
           {/* COLUMN */}
           <div className="border-l border-white/20 pl-4 space-y-2">
             <AnimatedLink text="services" />
@@ -84,7 +84,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="h-40 w-full"></div>
+      <div className="h-14 md:h-40 w-full"></div>
       <div className="space-y-6">
         <div>
           <svg
@@ -109,19 +109,30 @@ const Footer = () => {
             <path d="M165.127 10.1622C166.714 10.1622 168 8.87583 168 7.28913C168 5.70242 166.714 4.41602 165.127 4.41602C163.54 4.41602 162.254 5.70242 162.254 7.28913C162.254 8.87583 163.54 10.1622 165.127 10.1622ZM165.127 5.22763C166.264 5.22763 167.189 6.15219 167.189 7.28913C167.189 8.42606 166.264 9.35062 165.127 9.35062C163.99 9.35062 163.066 8.42606 163.066 7.28913C163.066 6.15219 163.99 5.22763 165.127 5.22763Z"></path>
           </svg>
         </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4 text-xs text-white font-extralight">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0">
+          {/* LEFT INFO */}
+          <div className="flex flex-wrap items-center text-xs text-white font-extralight gap-x-2 gap-y-1">
             <p>© 2025 Rise at Seven Ltd. All rights reserved</p>
-            <Dot />
+
+            <span className="hidden md:inline">•</span>
+
             <p>Company Number 11955187</p>
-            <Dot />
+
+            <span className="hidden md:inline">•</span>
+
             <p>VAT Registered GB 322402945</p>
-            <Dot />
+
+            <span className="hidden md:inline">•</span>
+
             <p>Privacy Policy</p>
-            <Dot />
+
+            <span className="hidden md:inline">•</span>
+
             <p>Terms & Conditions</p>
           </div>
-          <div className="text-white font-extralight text-xs">
+
+          {/* RIGHT INFO */}
+          <div className="text-white font-extralight text-xs mt-2 md:mt-0">
             <p>Website MadeByShape</p>
           </div>
         </div>
