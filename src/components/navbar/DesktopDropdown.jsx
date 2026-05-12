@@ -1,10 +1,22 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import gsap from "gsap";
 
 const DesktopDropdown = ({ activeItem, onClose, isFixed = false }) => {
   const subLinksRef = useRef([]);
   const dropdownRef = useRef(null);
-  const isTwoColumn = activeItem?.subLinks?.length > 3;
+  
+  const linkCount = activeItem?.subLinks?.length || 0;
+  const isTwoColumn = linkCount > 3;
+  const hasImage = !!activeItem?.content?.image;
+  
+  // Wider dropdown to prevent text wrapping
+  const dropdownWidth = useMemo(() => {
+    if (isTwoColumn) {
+      return hasImage ? "900px" : "800px";
+    } else {
+      return hasImage ? "600px" : "500px";
+    }
+  }, [isTwoColumn, hasImage]);
 
   useEffect(() => {
     if (!activeItem?.subLinks) return;
@@ -37,43 +49,41 @@ const DesktopDropdown = ({ activeItem, onClose, isFixed = false }) => {
           overflow-hidden rounded-2xl border border-gray-200
           bg-white shadow-xl
           transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-          ${isTwoColumn ? "w-[800px]" : "w-[600px]"}
         `}
+        style={{ width: dropdownWidth }}
       >
-        <div className="flex justify-between gap-6 p-6">
-          {/* Left Content */}
-          <div className={`flex ${isTwoColumn ? "w-2/3" : "w-full"}`}>
-            <div className="w-full">
-              {activeItem?.content?.title && (
-                <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                  {activeItem?.content?.title}
-                </h3>
-              )}
+        <div className={`flex ${hasImage ? "gap-8" : ""} p-6`}>
+          {/* Left Content - Links Grid */}
+          <div className={`${hasImage ? "flex-1 min-w-0" : "w-full"}`}>
+            {activeItem?.content?.title && (
+              <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                {activeItem?.content?.title}
+              </h3>
+            )}
 
-              {activeItem?.subLinks && (
-                <div
-                  className={`grid gap-3 ${
-                    isTwoColumn ? "grid-cols-2" : "grid-cols-1"
-                  }`}
-                >
-                  {activeItem.subLinks.map((sub, i) => (
-                    <a
-                      key={i}
-                      ref={(el) => (subLinksRef.current[i] = el)}
-                      href="#"
-                      className="text-base font-medium text-gray-900 hover:text-gray-600 hover:bg-gray-50 px-3 py-2 rounded-lg transition-all duration-200"
-                    >
-                      {sub}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
+            {activeItem?.subLinks && (
+              <div
+                className={`grid gap-4 ${
+                  isTwoColumn ? "grid-cols-2" : "grid-cols-1"
+                }`}
+              >
+                {activeItem.subLinks.map((sub, i) => (
+                  <a
+                    key={i}
+                    ref={(el) => (subLinksRef.current[i] = el)}
+                    href="#"
+                    className="text-xl font-medium text-gray-900 hover:text-gray-600 hover:bg-gray-50 px-3 py-2 rounded-lg transition-all duration-200 whitespace-nowrap"
+                  >
+                    {sub}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Right Image */}
-          {activeItem?.content?.image && (
-            <div className="w-1/3 flex-shrink-0 overflow-hidden rounded-xl">
+          {hasImage && (
+            <div className="w-[280px] flex-shrink-0 overflow-hidden rounded-xl">
               <img
                 src={activeItem?.content?.image}
                 alt={activeItem?.label}

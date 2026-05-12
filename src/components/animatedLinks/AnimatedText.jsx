@@ -20,7 +20,7 @@ const AnimatedText = () => {
 
     // Position calculations
     const startX = viewportWidth + 700;
-    const middleX = viewportWidth - 300;
+    const middleX = viewportWidth - 150;
     const endX = -2000;
 
     // Clear and create letter spans
