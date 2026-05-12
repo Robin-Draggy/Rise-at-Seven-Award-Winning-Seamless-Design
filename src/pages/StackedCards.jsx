@@ -128,71 +128,75 @@ const StackedCards = () => {
 
         {/* ================= MOBILE SWIPE CAROUSEL ================= */}
         <div className="md:hidden w-full">
+  {/* Carousel Container */}
+  <div
+    ref={containerRef}
+    className="
+      flex overflow-x-auto scroll-smooth
+      snap-x snap-mandatory
+      scrollbar-hide
+    "
+  >
+    {cards.map((card, i) => (
+      <div
+        key={i}
+        className="min-w-full snap-center px-4"
+      >
+        <div
+          className="rounded-3xl p-6 flex flex-col items-center transition-all duration-500"
+          style={{ backgroundColor: card.bg }}
+        >
+          <img
+            src={card.image}
+            alt={card.title}
+            className="w-40 h-40 object-cover rounded-xl mb-4"
+          />
 
-          <div
-            ref={containerRef}
-            className="
-              flex overflow-x-auto scroll-smooth
-              snap-x snap-mandatory
-              scrollbar-hide
-            "
+          <h3
+            className={`text-2xl font-medium text-center ${
+              i === 0 ? "text-white" : "text-black"
+            }`}
           >
-            {cards.map((card, i) => (
-              <div
-                key={i}
-                className="min-w-full snap-center px-4"
-              >
-                <div
-                  className="rounded-3xl p-6 flex flex-col items-center transition-all duration-500"
-                  style={{ backgroundColor: card.bg }}
-                >
-                  <img
-                    src={card.image}
-                    className="w-40 h-40 object-cover rounded-xl mb-4"
-                  />
+            {card.title}
+          </h3>
 
-                  <h3
-                    className={`text-2xl font-medium text-center ${
-                      i === 0 ? "text-white" : "text-black"
-                    }`}
-                  >
-                    {card.title}
-                  </h3>
+          <p
+            className={`text-sm mt-3 text-center opacity-80 ${
+              i === 0 ? "text-white" : "text-black"
+            }`}
+          >
+            {card.descOne}
+          </p>
 
-                  <p
-                    className={`text-sm mt-3 text-center opacity-80 ${
-                      i === 0 ? "text-white" : "text-black"
-                    }`}
-                  >
-                    {card.descOne}
-                  </p>
-
-                  {card.descTwo && (
-                    <p
-                      className={`text-sm mt-2 text-center opacity-80 ${
-                        i === 0 ? "text-white" : "text-black"
-                      }`}
-                    >
-                      {card.descTwo}
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* ================= INDICATOR BAR ================= */}
-          <div className="mt-6 relative h-[3px] w-full bg-white rounded-full overflow-hidden">
-            <div
-              className="absolute top-0 left-0 h-full bg-black rounded-full transition-all duration-500"
-              style={{
-                width: `${100 / cards.length}%`,
-                transform: `translateX(${activeIndex * (100 / cards.length)}%)`,
-              }}
-            />
-          </div>
-
+          {card.descTwo && (
+            <p
+              className={`text-sm mt-2 text-center opacity-80 ${
+                i === 0 ? "text-white" : "text-black"
+              }`}
+            >
+              {card.descTwo}
+            </p>
+          )}
         </div>
+      </div>
+    ))}
+  </div>
+
+  {/* Indicator Bar - Exactly as you specified */}
+  <div className="md:hidden mt-6 relative h-[3px] w-full bg-white rounded-full overflow-hidden">
+    <div
+      className="
+        absolute top-0 left-0
+        h-full bg-black rounded-full
+        transition-all duration-500
+      "
+      style={{
+        width: `${100 / cards.length}%`,
+        transform: `translateX(${activeIndex * 100}%)`,
+      }}
+    />
+  </div>
+</div>
 
       </section>
     </div>

@@ -21,7 +21,7 @@ const TopBar = () => {
   return (
     <div
       ref={barRef}
-      className="relative z-40 h-8 w-full flex items-center justify-center bg-[#B2F6E3] overflow-hidden"
+      className="relative z-20 md:z-40 h-8 w-full flex items-center justify-center bg-[#B2F6E3] overflow-hidden"
     >
       <div className="h-2 pt-5 overflow-hidden flex items-center justify-center">
         <div ref={trackRef} className="flex flex-col items-center">

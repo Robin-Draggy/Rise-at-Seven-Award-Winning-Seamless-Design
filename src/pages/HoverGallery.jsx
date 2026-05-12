@@ -51,6 +51,8 @@ const HoverGallery = () => {
   };
 
   const showCursor = () => {
+    document.body.style.cursor = "none";
+
     gsap.to(cursorRef.current, {
       scale: 1,
       opacity: 1,
@@ -60,6 +62,8 @@ const HoverGallery = () => {
   };
 
   const hideCursor = () => {
+    document.body.style.cursor = "auto";
+
     gsap.to(cursorRef.current, {
       scale: 0,
       opacity: 0,
@@ -96,20 +100,27 @@ const HoverGallery = () => {
         firstTitle={heading.firstTitle}
         secondTitle={heading.secondTitle}
         imageSrc={heading.imageSrc}
+        btnTitle="Explore More Thoughts"
       />
 
-      {/* CURSOR (desktop only behavior) */}
+      {/* CUSTOM CURSOR */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 z-[999] pointer-events-none w-30 h-30 rounded-full bg-[#B2F6E3] flex items-center justify-center scale-0 opacity-0"
+        className="
+          fixed top-0 left-0 z-[999]
+          pointer-events-none
+          w-30 h-30
+          rounded-full
+          bg-[#B2F6E3]
+          flex items-center justify-center
+          scale-0 opacity-0
+        "
       >
         <ArrowUpRight className="text-black w-12 h-12" />
       </div>
 
-      {/* CONTAINER */}
+      {/* CONTENT */}
       <div className="relative">
-
-        {/* MOBILE / DESKTOP WRAPPER */}
         <div
           ref={scrollRef}
           onScroll={(e) => {
@@ -143,26 +154,96 @@ const HoverGallery = () => {
                 }
               }}
               className="
-                group cursor-pointer
+                group
+                cursor-pointer md:cursor-none
                 min-w-[85%] md:min-w-0
                 snap-center
               "
             >
-              {/* IMAGE */}
+              {/* IMAGE CARD */}
               <div
-                className={`
-                  relative h-[420px] md:h-[500px]
-                  overflow-hidden rounded-[2rem]
-                  transition-all duration-500
-                `}
+                className="
+                  relative
+                  h-[420px] md:h-[500px]
+                  overflow-hidden
+                  rounded-[2rem]
+                "
               >
+                {/* MAIN IMAGE */}
                 <img
                   src={item.image}
-                  className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.03]"
                   alt=""
+                  className="
+                    absolute inset-0
+                    w-full h-full object-cover
+                    transition-transform duration-700
+                    ease-[cubic-bezier(0.22,1,0.36,1)]
+                    group-hover:scale-[1.03]
+                  "
                 />
 
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-700" />
+                {/* CINEMATIC BLUR REVEAL */}
+                <div
+                  className="
+                    absolute inset-0
+                    opacity-0
+                    group-hover:opacity-100
+                    transition-opacity duration-500
+                    pointer-events-none
+                  "
+                >
+                  <div
+                    className="
+                      absolute inset-0
+                      overflow-hidden
+                      [clip-path:circle(0%_at_50%_100%)]
+                      group-hover:[clip-path:circle(140%_at_50%_100%)]
+                      transition-all duration-[1200ms]
+                      ease-[cubic-bezier(0.22,1,0.36,1)]
+                    "
+                  >
+                    {/* HEAVILY BLURRED DUPLICATE */}
+                    <img
+                      src={item.image}
+                      alt=""
+                      className="
+                        absolute inset-0
+                        w-full h-full
+                        object-cover
+                        scale-[1.15]
+                        blur-[35px]
+                        brightness-110
+                        opacity-100
+                      "
+                    />
+
+                    {/* SOFT FOG */}
+                    <div
+                      className="
+                        absolute inset-0
+                        bg-white/10
+                      "
+                    />
+
+                    {/* CINEMATIC DARKNESS */}
+                    <div
+                      className="
+                        absolute inset-0
+                        bg-black/20
+                      "
+                    />
+                  </div>
+                </div>
+
+                {/* DEFAULT OVERLAY */}
+                <div
+                  className="
+                    absolute inset-0
+                    bg-black/10
+                    group-hover:bg-black/30
+                    transition-all duration-700
+                  "
+                />
               </div>
 
               {/* META */}
@@ -173,7 +254,9 @@ const HoverGallery = () => {
                     className="w-5 h-5 rounded-full"
                     alt=""
                   />
-                  <h5 className="text-gray-600 text-sm">{item.name}</h5>
+                  <h5 className="text-gray-600 text-sm">
+                    {item.name}
+                  </h5>
                 </div>
 
                 <div className="bg-white flex items-center gap-2 px-3 py-1 rounded-full text-gray-600 text-sm">
@@ -184,7 +267,7 @@ const HoverGallery = () => {
 
               {/* TITLE */}
               <div className="mt-4 px-2">
-                <h3 className="text-2xl md:text-3xl font-medium tracking-tight">
+                <h3 className="text-xl md:text-3xl font-medium tracking-tight leading-tight">
                   {item.title}
                 </h3>
               </div>
@@ -192,17 +275,20 @@ const HoverGallery = () => {
           ))}
         </div>
 
-        {/* MOBILE ACTIVE INDICATOR BAR */}
+        {/* MOBILE INDICATOR */}
         <div className="md:hidden mt-6 relative h-[3px] w-full bg-white rounded-full overflow-hidden">
           <div
-            className="absolute top-0 left-0 h-full bg-black rounded-full transition-all duration-500"
+            className="
+              absolute top-0 left-0
+              h-full bg-black rounded-full
+              transition-all duration-500
+            "
             style={{
               width: `${100 / items.length}%`,
               transform: `translateX(${activeIndex * 100}%)`,
             }}
           />
         </div>
-
       </div>
     </section>
   );

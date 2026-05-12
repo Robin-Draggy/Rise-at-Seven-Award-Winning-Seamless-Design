@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../components/buttons/Button";
+import TextButton from "../components/buttons/TextButton";
 
 const Descovery = () => {
   return (
@@ -21,8 +22,9 @@ const Descovery = () => {
           />
         </h1>
 
-        <div className="mt-5 hidden md:block">
-          <Button />
+        <div className="mt-5 w-full hidden md:flex items-center gap-5">
+          <Button title="Our Story" />
+          <TextButton title="Our Services" />
         </div>
       </div>
 
@@ -32,9 +34,15 @@ const Descovery = () => {
           A global team of search-first content marketers engineering semantic
           relevancy & category signals for both the internet and people
         </h4>
-        <div className="block md:hidden">
-          <Button />
-        </div>
+        <div className="mt-5 w-full flex flex-col md:hidden gap-3">
+  <div className="w-full">
+    <Button title="Our Story" />
+  </div>
+
+  <div className="w-full">
+    <TextButton title="Our Services" />
+  </div>
+</div>
       </div>
 
     </div>

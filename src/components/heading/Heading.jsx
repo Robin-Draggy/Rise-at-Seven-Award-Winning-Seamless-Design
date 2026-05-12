@@ -6,7 +6,7 @@ import Button from "../buttons/Button";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Heading = ({ firstTitle, secondTitle, imageSrc }) => {
+const Heading = ({ firstTitle, secondTitle, imageSrc, btnTitle }) => {
   const imgRef = useRef(null);
   const wrapperRef = useRef(null);
 
@@ -38,7 +38,7 @@ const Heading = ({ firstTitle, secondTitle, imageSrc }) => {
     >
       <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
         <div className="flex items-center gap-4">
-        <h1 className="text-[4rem] font-[500] leading-none">
+        <h1 className="heading text-[4rem] md:text-[6.5rem] font-[500] leading-none">
           {firstTitle}
         </h1>
 
@@ -47,18 +47,18 @@ const Heading = ({ firstTitle, secondTitle, imageSrc }) => {
           ref={imgRef}
           src={imageSrc}
           alt="image"
-          className="h-16 w-16 rounded-2xl object-cover"
+          className="h-16 w-16 md:h-22 md:w-22 rounded-2xl object-cover"
         />
         </div>
 
-        <h1 className="text-[4rem] font-[500] leading-none">
+        <h1 className="heading text-[4rem] md:text-[6.5rem] font-[500] leading-none">
           {secondTitle}
         </h1>
 
       </div>
 
       <div className="hidden md:block">
-        <Button />
+        <Button title={btnTitle} />
       </div>
     </div>
   );

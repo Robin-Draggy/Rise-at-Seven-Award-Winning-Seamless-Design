@@ -2,561 +2,335 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChartSpline, Search } from "lucide-react";
+import { works } from "../data/FeaturedWorks";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const works = [
-  {
-    title: "SIXT",
-    year: "[2023-2025]",
-    image: "/images/1.webp",
-    overlay: "#FECACC",
-  },
-  {
-    title: "Dojo - B2B",
-    year: "[2021-2025]",
-    image: "/images/2.webp",
-    overlay: "#60DCFB",
-  },
-  {
-    title: "Magnet Trade - B2B",
-    year: "[2023-2024]",
-    image: "/images/3.webp",
-    overlay: "#D29DD0",
-  },
-  {
-    title: "Leading E Sim",
-    year: "[2023-2025]",
-    image: "/images/4.webp",
-    overlay: "#CB7B3A",
-  },
-  {
-    title: "Spotify Motion",
-    year: "[2024]",
-    image: "/images/1.webp",
-    overlay: "#39B0BD",
-  },
-  {
-    title: "Netflix Search",
-    year: "[2022-2024]",
-    image: "/images/2.webp",
-    overlay: "#FDD8C4",
-  },
-  {
-    title: "Apple Vision",
-    year: "[2025]",
-    image: "/images/3.webp",
-    overlay: "#D8C4FD",
-  },
-  {
-    title: "Puma Culture",
-    year: "[2023]",
-    image: "/images/4.webp",
-    overlay: "#B2F6E3",
-  },
-  {
-    title: "Samsung Launch",
-    year: "[2024]",
-    image: "/images/1.webp",
-    overlay: "#FECACC",
-  },
-  {
-    title: "Adobe Creative",
-    year: "[2021-2024]",
-    image: "/images/2.webp",
-    overlay: "#60DCFB",
-  },
-  {
-    title: "Airbnb Stories",
-    year: "[2025]",
-    image: "/images/3.webp",
-    overlay: "#D29DD0",
-  },
-];
 
 const TITLE_HEIGHT = 88;
 
 const FeaturedWorks = () => {
   const sectionRef = useRef(null);
-
   const titleTrackRef = useRef(null);
   const imageTrackRef = useRef(null);
-
   const cursorRef = useRef(null);
+  const mobileSectionRef = useRef(null);
+  const mobileImageTrackRef = useRef(null);
 
   const titleRefs = useRef([]);
   const imageRefs = useRef([]);
-  const overlayRefs = useRef([]);
 
   const activeIndexRef = useRef(0);
 
+  // QuickTo functions
+  const xToRef = useRef(null);
+  const yToRef = useRef(null);
+
   useGSAP(() => {
-    const IMAGE_HEIGHT = window.innerHeight * 0.68;
+    const isMobile = window.innerWidth < 768;
 
-    // ----------------------------------------------------
-    // MOVEMENT DISTANCES
-    // ----------------------------------------------------
+    if (!isMobile) {
+      // Desktop version animation
+      const maxTitleMove = TITLE_HEIGHT * (works.length - 4);
+      const maxImageMove = window.innerHeight * 0.68 * (works.length - 1);
 
-    const maxTitleMove = TITLE_HEIGHT * (works.length - 4);
+      gsap.set(titleRefs.current[0], {
+        opacity: 1,
+        x: 70,
+      });
 
-    const maxImageMove = IMAGE_HEIGHT * (works.length - 1);
+      gsap.set(imageRefs.current[0], {
+        scale: 1,
+        xPercent: 0,
+      });
 
-    // ----------------------------------------------------
-    // INITIAL STATES
-    // ----------------------------------------------------
+      gsap.set(cursorRef.current, {
+        opacity: 0,
+        scale: 0.6,
+      });
 
-    gsap.set(titleRefs.current[0], {
-      opacity: 1,
-      x: 70,
-    });
+      xToRef.current = gsap.quickTo(cursorRef.current, "x", {
+        duration: 0.3,
+        ease: "power3.out",
+      });
 
-    gsap.set(imageRefs.current[0], {
-      scale: 1,
-      xPercent: 0,
-    });
+      yToRef.current = gsap.quickTo(cursorRef.current, "y", {
+        duration: 0.3,
+        ease: "power3.out",
+      });
 
-    // ----------------------------------------------------
-    // CURSOR
-    // ----------------------------------------------------
+      const trigger = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: `+=${works.length * 900}`,
+        scrub: 1,
+        pin: true,
 
-    const xTo = gsap.quickTo(cursorRef.current, "x", {
-      duration: 0.35,
-      ease: "power3.out",
-    });
+        onUpdate: (self) => {
+          const progress = self.progress;
 
-    const yTo = gsap.quickTo(cursorRef.current, "y", {
-      duration: 0.35,
-      ease: "power3.out",
-    });
-
-    const moveCursor = (e) => {
-      xTo(e.clientX - 48);
-      yTo(e.clientY - 48);
-    };
-
-    window.addEventListener("mousemove", moveCursor);
-
-    // ----------------------------------------------------
-    // SCROLLTRIGGER
-    // ----------------------------------------------------
-
-    ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: "top top",
-      end: `+=${works.length * 900}`,
-      scrub: 1,
-      pin: true,
-
-      onUpdate: (self) => {
-        const progress = self.progress;
-
-        // ------------------------------------------------
-        // LEFT SIDE
-        // slower
-        // locks earlier
-        // ------------------------------------------------
-
-        const leftProgress = Math.min(progress * 1.15, 1);
-
-        gsap.set(titleTrackRef.current, {
-          y: -maxTitleMove * leftProgress,
-        });
-
-        // ------------------------------------------------
-        // RIGHT SIDE
-        // full image scrolling
-        // ------------------------------------------------
-
-        gsap.set(imageTrackRef.current, {
-          y: -maxImageMove * progress,
-        });
-
-        // ------------------------------------------------
-        // ACTIVE INDEX
-        // based on image progress
-        // ------------------------------------------------
-
-        const imageProgress = progress * (works.length - 1);
-
-        const nextIndex = Math.round(imageProgress);
-
-        if (nextIndex !== activeIndexRef.current) {
-          activeIndexRef.current = nextIndex;
-
-          // --------------------------------------------
-          // TITLES
-          // --------------------------------------------
-
-          titleRefs.current.forEach((el, i) => {
-            gsap.to(el, {
-              opacity: i === nextIndex ? 1 : 0.12,
-
-              x: i === nextIndex ? 70 : 0,
-
-              duration: 0.8,
-              ease: "power3.out",
-              overwrite: true,
-            });
+          gsap.set(titleTrackRef.current, {
+            y: -maxTitleMove * Math.min(progress * 1.15, 1),
           });
 
-          // --------------------------------------------
-          // IMAGES
-          // --------------------------------------------
-
-          imageRefs.current.forEach((el, i) => {
-            gsap.to(el, {
-              scale: i === nextIndex ? 1 : 0.9,
-
-              xPercent: i === nextIndex ? 0 : 8,
-
-              duration: 1,
-              ease: "power3.out",
-              overwrite: true,
-            });
+          gsap.set(imageTrackRef.current, {
+            y: -maxImageMove * progress,
           });
 
-          // --------------------------------------------
-          // OVERLAY
-          // --------------------------------------------
+          const nextIndex = Math.round(progress * (works.length - 1));
 
-          overlayRefs.current.forEach((el, i) => {
-            gsap.to(el, {
-              scale: i === nextIndex ? 14 : 0,
+          if (nextIndex !== activeIndexRef.current) {
+            activeIndexRef.current = nextIndex;
 
-              duration: 1.1,
-              ease: "power4.out",
-              overwrite: true,
+            titleRefs.current.forEach((el, i) => {
+              gsap.to(el, {
+                opacity: i === nextIndex ? 1 : 0.15,
+                x: i === nextIndex ? 70 : 0,
+                duration: 0.5,
+              });
             });
-          });
-        }
-      },
-    });
 
-    return () => {
-      window.removeEventListener("mousemove", moveCursor);
-    };
+            imageRefs.current.forEach((el, i) => {
+              gsap.to(el, {
+                xPercent: i === nextIndex ? 0 : 5,
+                duration: 0.8,
+              });
+            });
+          }
+        },
+      });
+
+      return () => trigger.kill();
+    } else {
+      const imageHeight = 300;
+      const gap = 24;
+      const topPadding = 80;
+      const bottomPadding = 24;
+
+      const totalImagesHeight =
+        (imageHeight + gap) * works.length - gap + topPadding;
+
+      const scrollDistance =
+        totalImagesHeight - window.innerHeight + bottomPadding;
+
+      // Set initial state
+      gsap.set(mobileImageTrackRef.current, {
+        y: 0,
+      });
+
+      const mobileTrigger = ScrollTrigger.create({
+        trigger: mobileSectionRef.current,
+        start: "top 3%",
+        end: `+=${scrollDistance}`,
+        scrub: 1,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const moveY = -scrollDistance * progress;
+
+          gsap.set(mobileImageTrackRef.current, {
+            y: moveY,
+          });
+        },
+
+        onLeave: () => {
+          console.log("Last image bottom reached, unpinning");
+        },
+      });
+
+      return () => mobileTrigger.kill();
+    }
   }, []);
 
-  return (
-    <section
-      ref={sectionRef}
-      className="
-        relative
-        h-screen
-        overflow-hidden
-        bg-[#EFEEEC]
-      "
-    >
-      {/* ================================================= */}
-      {/* CUSTOM CURSOR */}
-      {/* ================================================= */}
+  const handleMouseMove = (e) => {
+    if (xToRef.current && yToRef.current) {
+      xToRef.current(e.clientX - 40);
+      yToRef.current(e.clientY - 40);
+    }
+  };
 
+  const handleMouseEnter = (i) => {
+    gsap.to(cursorRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.25,
+      ease: "power3.out",
+    });
+
+    gsap.to(`.overlay-circle-${i}`, {
+      clipPath: "circle(150% at 50% 100%)",
+      duration: 0.7,
+      ease: "power3.inOut",
+    });
+
+    gsap.to(`.title-${i}`, {
+      y: 0,
+      opacity: 1,
+      duration: 0.4,
+    });
+  };
+
+  const handleMouseLeave = (i) => {
+    gsap.to(cursorRef.current, {
+      opacity: 0,
+      scale: 0.6,
+      duration: 0.25,
+      ease: "power3.out",
+    });
+
+    gsap.to(`.overlay-circle-${i}`, {
+      clipPath: "circle(0% at 50% 100%)",
+      duration: 0.5,
+      ease: "power2.inOut",
+    });
+
+    gsap.to(`.title-${i}`, {
+      y: -10,
+      opacity: 0,
+      duration: 0.3,
+    });
+  };
+
+  return (
+    <section ref={sectionRef} className="relative min-h-screen overflow-hidden">
+      {/* Custom Cursor - Desktop only */}
       <div
         ref={cursorRef}
-        className="
-          fixed
-          left-0
-          top-0
-          z-[999]
-          flex
-          h-24
-          w-24
-          items-center
-          justify-center
-          rounded-full
-          bg-white
-          opacity-0
-          mix-blend-difference
-          pointer-events-none
-        "
+        className="hidden md:flex fixed left-0 top-0 z-[999] h-30 w-30 items-center justify-center rounded-full bg-[#B2F6E3] pointer-events-none"
       >
-        <ArrowUpRight className="h-10 w-10 text-black" />
+        <ArrowUpRight className="h-8 w-8 text-black" />
       </div>
 
-      {/* ================================================= */}
-      {/* MAIN CONTAINER */}
-      {/* ================================================= */}
-
-      <div
-        className="
-          relative
-          mx-4
-          mt-[2vh]
-          h-[96vh]
-          overflow-hidden
-          rounded-[36px]
-          bg-[#050816]
-        "
-      >
-        {/* ================================================= */}
-        {/* PINK CENTER LINE */}
-        {/* ================================================= */}
-
-        <div
-          className="
-            absolute
-            left-0
-            top-1/2
-            z-50
-            h-px
-            w-full
-            bg-[#ff4fd8]/40
-          "
-        />
-
-        {/* ================================================= */}
-        {/* BOTTOM LINES */}
-        {/* ================================================= */}
-
-        <div className="absolute bottom-10 left-0 z-50 w-full">
-          <div className="h-px bg-[#ff4fd8]/30" />
-          <div className="mt-1 h-px bg-[#ff4fd8]/20" />
-          <div className="mt-1 h-px bg-[#ff4fd8]/10" />
+      {/* Desktop Version */}
+      <div className="hidden md:block relative mx-4 mt-[2vh] h-[96vh] rounded-[36px] bg-[#050816] overflow-hidden">
+        <div className="absolute top-10 left-10 text-white z-10">
+          <p className="text-2xl font-medium">Featured Work</p>
         </div>
 
-        {/* ================================================= */}
-        {/* LABEL */}
-        {/* ================================================= */}
-
-        <div className="absolute left-10 top-10 z-50">
-          <p className="text-xl font-medium text-white">Featured Work</p>
-        </div>
-
-        {/* ================================================= */}
-        {/* GRID */}
-        {/* ================================================= */}
-
-        <div className="grid h-full grid-cols-[1.05fr_0.95fr]">
-          {/* ================================================= */}
-          {/* LEFT SIDE */}
-          {/* ================================================= */}
-
+        <div className="grid grid-cols-[1.05fr_0.95fr] pr-10 h-full">
+          {/* LEFT SECTION - Titles */}
           <div className="relative h-full">
-            {/* LEFT FIXED WINDOW */}
-            <div
-              className="
-      absolute
-      left-0
-      top-1/2
-      -translate-y-1/2
-      h-[60vh]
-      w-[50vw]   /* adjust width as needed */
-      overflow-hidden
-    "
-            >
-              {/* CENTER LOCK AREA */}
-              <div
-                className="
-        absolute
-        left-0
-        top-1/2
-        -translate-y-1/2
-        w-full
-      "
-              >
-                <div ref={titleTrackRef} className="relative">
-                  {works.map((work, i) => {
-                    return (
-                      <div
-                        key={i}
-                        className="
-                relative
-                flex
-                h-20
-                items-center
-                px-10
-              "
-                      >
-                        <div
-                          ref={(el) => (titleRefs.current[i] = el)}
-                          onMouseEnter={() => {
-                            const isActive = activeIndexRef.current === i;
-
-                            gsap.to(titleRefs.current[i], {
-                              x: isActive ? 90 : 20,
-                              duration: 0.45,
-                              ease: "power3.out",
-                            });
-                          }}
-                          onMouseLeave={() => {
-                            const isActive = activeIndexRef.current === i;
-
-                            gsap.to(titleRefs.current[i], {
-                              x: isActive ? 70 : 0,
-                              duration: 0.45,
-                              ease: "power3.out",
-                            });
-                          }}
-                          className="
-                  relative
-                  flex
-                  items-start
-                  gap-2
-                  opacity-[0.12]
-                  will-change-transform
-                "
-                        >
-                          <h2
-                            className="
-                    text-[5vw]
-                    font-medium
-                    leading-[0.82]
-                    tracking-[-0.075em]
-                    text-white
-                    whitespace-nowrap
-                  "
-                          >
-                            {work.title}
-                          </h2>
-
-                          <span
-                            className="
-                    absolute
-                    -right-16
-                    top-2
-                    text-[11px]
-                    font-medium
-                    text-white
-                  "
-                          >
-                            {work.year}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 h-[60vh] w-[50vw] overflow-hidden">
+              <div ref={titleTrackRef} className="relative">
+                {works.map((work, i) => (
+                  <div key={i} className="flex h-20 items-center px-10">
+                    <div
+                      ref={(el) => (titleRefs.current[i] = el)}
+                      className="opacity-[0.12]"
+                    >
+                      <h2 className="text-[clamp(24px,5vw,72px)] text-white font-medium tracking-[-0.06em]">
+                        {work.title}
+                      </h2>
+                      <span className="text-white absolute -right-20 top-0">{work.year}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* ================================================= */}
-          {/* RIGHT SIDE */}
-          {/* ================================================= */}
-
-          <div className="relative overflow-hidden">
+          {/* RIGHT SECTION - Images */}
+          <div className="relative h-full overflow-hidden">
             <div
               ref={imageTrackRef}
-              className="
-                absolute
-                left-0
-                top-0
-                w-full
-                pt-[12vh]
-                pb-[20vh]
-              "
+              className="absolute w-full pt-[12vh] pb-[20vh]"
             >
-              {works.map((work, i) => {
-                return (
+              {works.map((work, i) => (
+                <div key={i} className="h-[60vh] px-6 py-3">
                   <div
-                    key={i}
-                    className="
-                      h-[68vh]
-                      px-6
-                      py-3
-                    "
+                    ref={(el) => (imageRefs.current[i] = el)}
+                    className="relative h-full overflow-hidden rounded-[32px] cursor-none"
+                    onMouseMove={handleMouseMove}
+                    onMouseEnter={() => handleMouseEnter(i)}
+                    onMouseLeave={() => handleMouseLeave(i)}
                   >
+                    <img
+                      src={work.image}
+                      alt={work.title}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+
+                    <div className="absolute bottom-10 right-10 z-20">
+                    <button className="bg-white/30 backdrop-blur-sm px-3 py-2 rounded-full text-white text-lg flex items-center gap-3">
+                      <Search size={20} />
+                      <span>Car Rental</span>
+                      <ChartSpline size={20} />
+                    </button>
+                  </div>
+
                     <div
-                      ref={(el) => (imageRefs.current[i] = el)}
-                      onMouseEnter={() => {
-                        gsap.to(cursorRef.current, {
-                          opacity: 1,
-                          scale: 1,
-                          duration: 0.4,
-                          ease: "power3.out",
-                        });
-
-                        gsap.to(overlayRefs.current[i], {
-                          scale: 14,
-                          duration: 1,
-                          ease: "power4.out",
-                        });
+                      className={`overlay-circle-${i} absolute inset-0 pointer-events-none`}
+                      style={{
+                        backgroundColor: work.overlay,
+                        clipPath: "circle(0% at 50% 100%)",
                       }}
-                      onMouseLeave={() => {
-                        gsap.to(cursorRef.current, {
-                          opacity: 0,
-                          scale: 0,
-                          duration: 0.4,
-                          ease: "power3.out",
-                        });
+                    />
 
-                        if (activeIndexRef.current !== i) {
-                          gsap.to(overlayRefs.current[i], {
-                            scale: 0,
-                            duration: 1,
-                            ease: "power4.out",
-                          });
-                        }
-                      }}
-                      className="
-                        relative
-                        h-full
-                        overflow-hidden
-                        rounded-[32px]
-                        cursor-none
-                        will-change-transform
-                      "
+                    <div
+                      className={`title-${i} absolute top-6 left-6 opacity-0 -translate-y-2 z-10`}
                     >
-                      {/* IMAGE */}
-
-                      <img
-                        src={work.image}
-                        alt=""
-                        className="
-                          absolute
-                          inset-0
-                          h-full
-                          w-full
-                          object-cover
-                        "
-                      />
-
-                      {/* OVERLAY */}
-
-                      <div
-                        ref={(el) => (overlayRefs.current[i] = el)}
-                        className="
-                          absolute
-                          left-1/2
-                          top-full
-                          h-[120px]
-                          w-[120px]
-                          -translate-x-1/2
-                          rounded-full
-                          will-change-transform
-                        "
-                        style={{
-                          background: work.overlay,
-                          scale: 0,
-                        }}
-                      />
-
-                      {/* CONTENT */}
-
-                      <div
-                        className="
-                          absolute
-                          bottom-8
-                          left-8
-                          z-20
-                        "
-                      >
-                        <p
-                          className="
-                            text-4xl
-                            font-medium
-                            text-black
-                          "
-                        >
-                          {work.title}
-                        </p>
-                      </div>
+                      <h3 className="text-white text-[4rem] font-semibold">
+                        {work.title}
+                      </h3>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Version */}
+      <div
+        ref={mobileSectionRef}
+        className="md:hidden relative"
+        style={{ height: `100vh` }}
+      >
+        {/* Pinned Container */}
+        <div className="fixed top-0 left-0 right-0 h-screen rounded-2xl overflow-hidden bg-[#050816]">
+          {/* Featured Work Title */}
+          <div className="absolute top-6 left-6 text-white z-20">
+            <p className="text-xl font-medium">Featured Work</p>
+          </div>
+
+          {/* Scrolling Images Track */}
+          <div
+            ref={mobileImageTrackRef}
+            className="absolute top-0 left-0 w-full pt-20"
+          >
+            {works.map((work, i) => (
+              <div key={i} className="w-full px-4 mb-6 last:mb-0">
+                <div
+                  className="relative rounded-lg overflow-hidden"
+                  style={{ height: "300px" }}
+                >
+                  <img
+                    src={work.image}
+                    alt={work.title}
+                    className="w-full h-full object-cover"
+                  />
+
+                  <div className="absolute top-3 right-3 z-20">
+                    <button className="bg-white/30 backdrop-blur-sm px-3 py-2 rounded-full text-white text-sm flex items-center gap-1">
+                      <Search size={16} />
+                      <span>Car Rental</span>
+                      <ChartSpline size={16} />
+                    </button>
+                  </div>
+
+                  <div className="absolute bottom-6 left-6 right-6 z-10">
+                    <p className="text-white font-semibold text-sm mb-1">{work.year}</p>
+                    <h3 className="text-white text-4xl font-semibold leading-tight">
+                      {work.title}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

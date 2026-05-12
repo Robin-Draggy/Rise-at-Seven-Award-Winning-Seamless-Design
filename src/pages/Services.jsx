@@ -24,6 +24,7 @@ const Services = () => {
         firstTitle={heading.firstTitle}
         secondTitle={heading.secondTitle}
         imageSrc={heading.imageSrc}
+        btnTitle="View All Services"
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {services.map((item, i) => (

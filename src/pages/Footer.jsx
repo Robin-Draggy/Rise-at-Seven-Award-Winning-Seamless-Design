@@ -1,18 +1,50 @@
-import React from "react";
-import { ArrowUpRight, Dot } from "lucide-react";
+import React, { useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
 import {
   RiFacebookFill,
   RiInstagramLine,
   RiLinkedinFill,
-  RiArrowRightUpLine,
 } from "@remixicon/react";
 import AnimatedLink from "../components/animatedLinks/AnimatedLinks";
 import Socials from "../components/buttons/SocialButton";
 
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const Footer = () => {
+  const firstSectionRef = useRef(null);
+
+useGSAP(() => {
+  gsap.fromTo(
+    firstSectionRef.current,
+    {
+      opacity: 0,
+    },
+    {
+      opacity: 1,
+      duration: 5, 
+      ease: "power1.out",
+      scrollTrigger: {
+        trigger: firstSectionRef.current,
+        start: "top 85%", 
+        end: "top 30%", 
+        scrub: 1.5, 
+      },
+    }
+  );
+}, []);
+
   return (
-    <div className="footer-bg text-white rounded-3xl px-4 md:px-8 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-8 gap-14 lg:gap-8">
+    <div className="footer-bg text-white rounded-3xl px-4 md:px-8 py-8 overflow-hidden">
+      
+      {/* FIRST SECTION */}
+      <div
+        ref={firstSectionRef}
+        className="grid grid-cols-1 lg:grid-cols-8 gap-14 lg:gap-8 opacity-0"
+      >
         {/* LEFT */}
         <div className="lg:col-span-3 w-full lg:w-[85%] space-y-6">
           <h3 className="text-3xl sm:text-4xl tracking-tight font-medium leading-tight">
@@ -20,9 +52,28 @@ const Footer = () => {
           </h3>
 
           {/* EMAIL INPUT */}
-          <div className="flex items-center justify-between bg-[#282828] border-2 border-transparent focus-within:border-white/20 pl-5 pr-2 py-2 rounded-full gap-3 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+          <div
+            className="
+              flex items-center justify-between
+              bg-[#282828]
+              border-2 border-transparent
+              focus-within:border-white/20
+              pl-5 pr-2 py-2
+              rounded-full
+              gap-3
+              transition-all duration-500
+              ease-[cubic-bezier(0.22,1,0.36,1)]
+            "
+          >
             <input
-              className="bg-transparent text-base sm:text-lg md:text-xl text-white placeholder:text-white/50 outline-none w-full"
+              className="
+                bg-transparent
+                text-base sm:text-lg md:text-xl
+                text-white
+                placeholder:text-white/50
+                outline-none
+                w-full
+              "
               type="text"
               placeholder="Your Email Address"
             />
@@ -33,7 +84,7 @@ const Footer = () => {
                 bg-[#B2F6E3]
                 hover:bg-white
                 p-3
-                rounded-full  
+                rounded-full
                 text-black
                 shrink-0
                 cursor-pointer
@@ -44,11 +95,11 @@ const Footer = () => {
             >
               <ArrowUpRight
                 className="
-      transition-transform
-      duration-500
-      ease-[cubic-bezier(0.22,1,0.36,1)]
-      group-hover:rotate-90
-    "
+                  transition-transform
+                  duration-500
+                  ease-[cubic-bezier(0.22,1,0.36,1)]
+                  group-hover:rotate-90
+                "
               />
             </button>
           </div>
@@ -59,7 +110,7 @@ const Footer = () => {
 
         {/* RIGHT */}
         <div className="lg:col-span-5 grid grid-cols-2 md:grid-cols-3 gap-10">
-          {/* COLUMN */}
+          {/* COLUMN 1 */}
           <div className="border-l border-white/20 pl-4 space-y-2">
             <AnimatedLink text="services" />
             <AnimatedLink text="work" />
@@ -68,6 +119,7 @@ const Footer = () => {
             <AnimatedLink text="meet the risers" />
           </div>
 
+          {/* COLUMN 2 */}
           <div className="border-l border-white/20 pl-4 space-y-2">
             <AnimatedLink text="testimonials" />
             <AnimatedLink text="blog & resources" />
@@ -75,6 +127,7 @@ const Footer = () => {
             <AnimatedLink text="careers" />
           </div>
 
+          {/* COLUMN 3 */}
           <div className="border-l border-white/20 pl-4 space-y-2">
             <AnimatedLink text="sheffield" />
             <AnimatedLink text="manchester" />
@@ -84,8 +137,14 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="h-14 md:h-40 w-full"></div>
+
+      {/* SPACING */}
+      <div className="h-14 md:h-40 w-full" />
+
+      {/* BOTTOM */}
       <div className="space-y-6">
+        
+        {/* LOGO */}
         <div>
           <svg
             class="w-full h-full object-contain fill-current"
@@ -109,7 +168,10 @@ const Footer = () => {
             <path d="M165.127 10.1622C166.714 10.1622 168 8.87583 168 7.28913C168 5.70242 166.714 4.41602 165.127 4.41602C163.54 4.41602 162.254 5.70242 162.254 7.28913C162.254 8.87583 163.54 10.1622 165.127 10.1622ZM165.127 5.22763C166.264 5.22763 167.189 6.15219 167.189 7.28913C167.189 8.42606 166.264 9.35062 165.127 9.35062C163.99 9.35062 163.066 8.42606 163.066 7.28913C163.066 6.15219 163.99 5.22763 165.127 5.22763Z"></path>
           </svg>
         </div>
+
+        {/* FOOTER INFO */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0">
+          
           {/* LEFT INFO */}
           <div className="flex flex-wrap items-center text-xs text-white font-extralight gap-x-2 gap-y-1">
             <p>© 2025 Rise at Seven Ltd. All rights reserved</p>

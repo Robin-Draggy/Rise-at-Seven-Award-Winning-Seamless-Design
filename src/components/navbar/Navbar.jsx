@@ -1,73 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 import { CircleChevronUp, Menu, Plus, X } from "lucide-react";
 import Button from "../buttons/Button";
-import gsap from "gsap";
-
-const links = [
-  {
-    label: "Services",
-    dropdown: true,
-    subLinks: [
-      "Onsite SEO",
-      "Search & Growth Strategy",
-      "B2B Marketing",
-      "Content Experience",
-      "Digital PR",
-      "Social Media & Campaigns",
-      "Data & Insights",
-      "Social SEO/Search",
-    ],
-    content: {
-      title: "B2B Marketing",
-      description:
-        "Helping brands dominate search, social, and content strategy.",
-      image: "/images/1.webp",
-    },
-  },
-  {
-    label: "Industries",
-    dropdown: true,
-    subLinks: ["SaaS", "E-commerce", "Fintech"],
-    content: {
-      title: "Industry Solutions",
-      description:
-        "Tailored campaigns built for modern digital-first industries.",
-      image: "/images/2.webp",
-    },
-  },
-  { label: "International" },
-  {
-    label: "About",
-    dropdown: true,
-    subLinks: ["Team", "Mission", "Partners"],
-    content: {
-      title: "Who We Are",
-      description:
-        "A creative agency focused on category-defining digital growth.",
-      image: "/images/3.webp",
-    },
-  },
-  {
-    label: "Work",
-    dropdown: true,
-    subLinks: ["Case Studies", "Campaigns", "Results"],
-    content: {
-      title: "Featured Work",
-      description:
-        "Explore campaigns, launches, and breakthrough brand moments.",
-      image: "/images/4.webp",
-    },
-  },
-  { label: "Careers" },
-  { label: "Blog & Resources" },
-  { label: "Webinar" },
-];
+import { links } from "../../data/Navlinks";
 
 const Navbar = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [openMobileIndex, setOpenMobileIndex] = useState(null);
+  
   const subLinksRef = useRef([]);
+
   const setSubLinkRef = (el, i) => {
     subLinksRef.current[i] = el;
   };
@@ -132,7 +75,7 @@ const Navbar = () => {
 
       {/* MOBILE OVERLAY */}
       <div
-        className={`fixed inset-0 z-999 bg-black/60 m-2 rounded-4xl backdrop-blur-xl transition-all duration-500 lg:hidden ${
+        className={`fixed inset-0 z-999 bg-black/10 m-2 rounded-4xl backdrop-blur-lg transition-all duration-500 lg:hidden ${
           mobileMenu
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -183,16 +126,16 @@ const Navbar = () => {
           </div>
 
           {/* LINKS */}
-          <div className="mt-7 flex flex-1 flex-col leading-14">
+          <div className="mt-7 flex flex-1 flex-col leading-7">
             {links.map((link, i) => (
-              <div key={i}>
+              <div key={i} className="mb-2">
                 {/* MAIN LINK */}
                 <button
                   onClick={() => {
                     if (!link.subLinks) return;
                     setOpenMobileIndex(openMobileIndex === i ? null : i);
                   }}
-                  className="group flex w-full items-center justify-between text-[3.2rem] font-medium"
+                  className="group flex w-full items-center justify-between text-[2.2rem] font-medium"
                 >
                   <span>{link.label}</span>
 
@@ -212,21 +155,23 @@ const Navbar = () => {
                 {/* SUB LINKS */}
                 {link.subLinks && (
                   <div
-                    className={`overflow-hidden pt-3 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                       openMobileIndex === i
-                        ? "max-h-40 opacity-100 pb-4"
+                        ? "max-h-40 opacity-100 mt-4 pb-2"
                         : "max-h-0 opacity-0"
                     }`}
                   >
-                    {link.subLinks.map((sub, idx) => (
-                      <a
-                        key={idx}
-                        href="#"
-                        className="block text-xl font-semibold text-white transition-all duration-300"
-                      >
-                        {sub}
-                      </a>
-                    ))}
+                    <div className="flex flex-col gap-3">
+                      {link.subLinks.map((sub, idx) => (
+                        <a
+                          key={idx}
+                          href="#"
+                          className="block text-xl font-semibold text-white transition-all duration-300"
+                        >
+                          {sub}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -235,7 +180,7 @@ const Navbar = () => {
 
           {/* BUTTON */}
           <div className="mt-auto pb-2">
-            <Button />
+            <Button title="Get In Touch" />
           </div>
         </div>
       </div>
@@ -283,9 +228,9 @@ const Navbar = () => {
             >
               <a
                 href="#"
-                className="flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-light transition-all duration-500 ease-out hover:bg-[#F1f1f1] hover:text-black"
+                className="flex items-center gap-1 rounded-full px-4 py-2.5 text-md font-medium transition-all duration-500 ease-out hover:bg-[#F1f1f1] hover:text-black"
               >
-                <span>{link.label}</span>
+                <span className="tracking-tight">{link.label}</span>
 
                 {link.dropdown && (
                   <Plus
@@ -300,15 +245,16 @@ const Navbar = () => {
 
         {/* DESKTOP BUTTON */}
         <div className="hidden lg:block">
-          <Button />
+          <Button title="Get in touch" />
         </div>
 
         {/* MOBILE MENU BUTTON */}
         <button
           onClick={() => setMobileMenu(true)}
-          className="flex h-12 w-12 items-center justify-center lg:hidden"
+          className="flex h-12 w-12 flex-col items-center justify-center gap-1.5 lg:hidden"
         >
-          <Menu size={20} />
+          <span className="h-0.5 w-5 bg-white"></span>
+          <span className="h-0.5 w-5 bg-white"></span>
         </button>
       </div>
 
