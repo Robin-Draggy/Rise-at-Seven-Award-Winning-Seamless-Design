@@ -7,11 +7,10 @@ import Descovery from "./pages/Descovery"
 import TextMarquee from "./pages/TextMarquee"
 import HoverGallery from "./pages/HoverGallery"
 import Footer from "./pages/Footer"
-import ScrollTextSection from "./pages/ScrollTextSection"
 import AnimatedText from "./components/animatedLinks/AnimatedText"
 import StackedCards from "./pages/StackedCards"
 import Services from "./pages/Services"
-import FeaturedWorks from "./pages/FeaturedWorks"
+import FeaturedWorks from "./components/FeaturedWorks"
 
 function App() {
 
@@ -25,15 +24,14 @@ function App() {
       <Hero />
       <Marquee />
       <Descovery />
-      <div className="mx-5">
-      {/* <FeaturedWorks /> */}
+      <div className="mx-2">
+      <FeaturedWorks />
       </div>
       <Services />
       <TextMarquee />
       <StackedCards />
       <HoverGallery />
-      {/* <AnimatedText /> */}
-      {/* <ScrollTextSection /> */}
+      <AnimatedText />
       <Footer />      
     </div>
     </>
@@ -41,3 +39,4 @@ function App() {
 }
 
 export default App
+

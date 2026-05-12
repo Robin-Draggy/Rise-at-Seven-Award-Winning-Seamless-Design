@@ -61,10 +61,10 @@ const Marquee = () => {
       <div className="relative flex-1 w-full overflow-hidden">
 
         {/* LEFT FADE */}
-        <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-10 sm:w-20 md:w-28 bg-gradient-to-r from-[#F1F1F1] via-[#f1f1f17e] to-transparent" />
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 sm:w-20 md:w-28 bg-gradient-to-r from-[#F1F1F1] via-[#f1f1f17e] to-transparent" />
 
         {/* RIGHT FADE */}
-        <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-10 sm:w-20 md:w-28 bg-gradient-to-l from-[#F1F1F1] via-[#f1f1f17e] to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 sm:w-20 md:w-28 bg-gradient-to-l from-[#F1F1F1] via-[#f1f1f17e] to-transparent" />
 
         {/* TRACK */}
         <div
