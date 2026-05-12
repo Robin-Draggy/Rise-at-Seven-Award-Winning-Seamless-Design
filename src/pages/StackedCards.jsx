@@ -2,34 +2,11 @@ import React, { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { cards } from "../data/StackedCards";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const cards = [
-  {
-    title: "Pioneers",
-    image: "/images/1.webp",
-    bg: "#000000",
-    descOne:
-      "We’re dedicated to creating the industry narrative that others follow 3 years from now.",
-    descTwo:
-      "We’re on a mission to be the first search-first agency to win a Cannes Lion.",
-  },
-  {
-    title: "Award Winning",
-    image: "/images/2.webp",
-    bg: "#B2F6E3",
-    descOne:
-      "A roll top bath full of 79 awards. Voted The Drum's best agency outside of London.",
-  },
-  {
-    title: "Speed",
-    image: "/images/3.webp",
-    bg: "#FFFFFF",
-    descOne:
-      "Google is moving fast, but humans are moving faster.",
-  },
-];
+
 
 const StackedCards = () => {
   const sectionRef = useRef(null);
@@ -60,7 +37,7 @@ const StackedCards = () => {
           rotate: -40,
           ease: "none",
         },
-        i * 0.4
+        i * 0.4,
       );
     });
   }, []);
@@ -83,7 +60,7 @@ const StackedCards = () => {
   }, []);
 
   return (
-    <div className="py-20">
+    <div className="py-8 md:py-16">
       <h1 className="text-xl text-center tracking-tighter capitalize mb-10">
         legacy in the making
       </h1>
@@ -92,7 +69,6 @@ const StackedCards = () => {
         ref={sectionRef}
         className="relative md:h-[70vh] flex items-center justify-center"
       >
-
         {/* ================= DESKTOP STACK ================= */}
         <div className="relative hidden md:block w-135 h-135">
           {cards.map((card, i) => (
@@ -128,76 +104,72 @@ const StackedCards = () => {
 
         {/* ================= MOBILE SWIPE CAROUSEL ================= */}
         <div className="md:hidden w-full">
-  {/* Carousel Container */}
-  <div
-    ref={containerRef}
-    className="
+          {/* Carousel Container */}
+          <div
+            ref={containerRef}
+            className="
       flex overflow-x-auto scroll-smooth
       snap-x snap-mandatory
       scrollbar-hide
     "
-  >
-    {cards.map((card, i) => (
-      <div
-        key={i}
-        className="min-w-full snap-center px-4"
-      >
-        <div
-          className="rounded-3xl p-6 flex flex-col items-center transition-all duration-500"
-          style={{ backgroundColor: card.bg }}
-        >
-          <img
-            src={card.image}
-            alt={card.title}
-            className="w-40 h-40 object-cover rounded-xl mb-4"
-          />
-
-          <h3
-            className={`text-2xl font-medium text-center ${
-              i === 0 ? "text-white" : "text-black"
-            }`}
           >
-            {card.title}
-          </h3>
+            {cards.map((card, i) => (
+              <div key={i} className="min-w-full snap-center px-4">
+                <div
+                  className="rounded-3xl p-6 flex flex-col items-center transition-all duration-500"
+                  style={{ backgroundColor: card.bg }}
+                >
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-40 h-40 object-cover rounded-xl mb-4"
+                  />
 
-          <p
-            className={`text-sm mt-3 text-center opacity-80 ${
-              i === 0 ? "text-white" : "text-black"
-            }`}
-          >
-            {card.descOne}
-          </p>
+                  <h3
+                    className={`text-2xl font-medium text-center ${
+                      i === 0 ? "text-white" : "text-black"
+                    }`}
+                  >
+                    {card.title}
+                  </h3>
 
-          {card.descTwo && (
-            <p
-              className={`text-sm mt-2 text-center opacity-80 ${
-                i === 0 ? "text-white" : "text-black"
-              }`}
-            >
-              {card.descTwo}
-            </p>
-          )}
-        </div>
-      </div>
-    ))}
-  </div>
+                  <p
+                    className={`text-sm mt-3 text-center opacity-80 ${
+                      i === 0 ? "text-white" : "text-black"
+                    }`}
+                  >
+                    {card.descOne}
+                  </p>
 
-  {/* Indicator Bar - Exactly as you specified */}
-  <div className="md:hidden mt-6 relative h-[3px] w-full bg-white rounded-full overflow-hidden">
-    <div
-      className="
+                  {card.descTwo && (
+                    <p
+                      className={`text-sm mt-2 text-center opacity-80 ${
+                        i === 0 ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {card.descTwo}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Indicator Bar - Exactly as you specified */}
+          <div className="md:hidden mt-6 relative h-[3px] w-full bg-white rounded-full overflow-hidden">
+            <div
+              className="
         absolute top-0 left-0
         h-full bg-black rounded-full
         transition-all duration-500
       "
-      style={{
-        width: `${100 / cards.length}%`,
-        transform: `translateX(${activeIndex * 100}%)`,
-      }}
-    />
-  </div>
-</div>
-
+              style={{
+                width: `${100 / cards.length}%`,
+                transform: `translateX(${activeIndex * 100}%)`,
+              }}
+            />
+          </div>
+        </div>
       </section>
     </div>
   );

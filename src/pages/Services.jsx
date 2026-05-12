@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
 import Heading from "../components/heading/Heading";
+import Button from "../components/buttons/Button";
 
 const services = [
   { title: "Digital PR", image: "/images/3.webp" },
@@ -19,7 +20,7 @@ const heading = {
 
 const Services = () => {
   return (
-    <section className="w-full py-12 px-2">
+    <section className="w-full py-4 md:py-12 px-2">
       <Heading
         firstTitle={heading.firstTitle}
         secondTitle={heading.secondTitle}
@@ -109,6 +110,10 @@ const Services = () => {
             <hr className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full border-t border-black/20" />
           </div>
         ))}
+      </div>
+
+      <div className="mt-5 block md:hidden">
+        <Button title="View All Services" />
       </div>
     </section>
   );

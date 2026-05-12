@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { ArrowUpRight, Timer } from "lucide-react";
 import gsap from "gsap";
 import Heading from "../components/heading/Heading";
+import Button from "../components/buttons/Button";
 
 const items = [
   {
@@ -91,10 +92,7 @@ const HoverGallery = () => {
   };
 
   return (
-    <section
-      onMouseMove={moveCursor}
-      className="relative w-full py-24 px-6"
-    >
+    <section onMouseMove={moveCursor} className="relative w-full py-6 px-6">
       {/* HEADING */}
       <Heading
         firstTitle={heading.firstTitle}
@@ -254,9 +252,7 @@ const HoverGallery = () => {
                     className="w-5 h-5 rounded-full"
                     alt=""
                   />
-                  <h5 className="text-gray-600 text-sm">
-                    {item.name}
-                  </h5>
+                  <h5 className="text-gray-600 text-sm">{item.name}</h5>
                 </div>
 
                 <div className="bg-white flex items-center gap-2 px-3 py-1 rounded-full text-gray-600 text-sm">
@@ -289,6 +285,10 @@ const HoverGallery = () => {
             }}
           />
         </div>
+      </div>
+
+      <div className="mt-5 block md:hidden">
+        <Button title="Explore More Thoughts" />
       </div>
     </section>
   );

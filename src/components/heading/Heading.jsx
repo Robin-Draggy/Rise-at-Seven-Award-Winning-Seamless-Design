@@ -36,9 +36,9 @@ const Heading = ({ firstTitle, secondTitle, imageSrc, btnTitle }) => {
       ref={wrapperRef}
       className="flex items-center justify-between pb-6 border-none md:border-b border-black/20 mb-8"
     >
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-0 md:gap-4">
         <div className="flex items-center gap-4">
-        <h1 className="heading text-[4rem] md:text-[6.5rem] font-[500] leading-none">
+        <h1 className="heading text-[3.5rem] md:text-[6.5rem] font-[500] leading-none tracking-tighter">
           {firstTitle}
         </h1>
 
@@ -51,7 +51,7 @@ const Heading = ({ firstTitle, secondTitle, imageSrc, btnTitle }) => {
         />
         </div>
 
-        <h1 className="heading text-[4rem] md:text-[6.5rem] font-[500] leading-none">
+        <h1 className="heading text-[3.5rem] md:text-[6.5rem] font-[500] leading-none tracking-tighter">
           {secondTitle}
         </h1>
 

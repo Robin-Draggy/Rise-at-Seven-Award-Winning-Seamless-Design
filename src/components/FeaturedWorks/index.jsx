@@ -6,6 +6,7 @@ import { works } from "../../data/FeaturedWorks";
 import CustomCursor from "./CustomCursor";
 import DesktopVersion from "./DesktopVersion";
 import MobileVersion from "./MobileVersion";
+import Button from "../buttons/Button";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -174,7 +175,7 @@ const FeaturedWorks = () => {
   };
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen pb-10 overflow-hidden">
       <CustomCursor ref={cursorRef} />
       
       <DesktopVersion
@@ -195,6 +196,9 @@ const FeaturedWorks = () => {
         mobileImageTrackRef={mobileImageTrackRef}
         works={works}
       />
+      <div className="mt-5 flex items-center justify-center">
+        <Button title="Explore Our Work" />
+      </div>
     </section>
   );
 };
